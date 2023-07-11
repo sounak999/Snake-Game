@@ -7,6 +7,7 @@ const musicSound = new Audio('../music/music.mp3')
 
 let speed = 5
 let lastPaintTime = 0
+let score = 0, hiscoreVal = 0
 
 let snakeArr = [
     {x: 13, y: 15}
@@ -72,6 +73,7 @@ function gameEngine() {
 
         score += 1;
         scoreBox.innerHTML = "Score: " + score;
+        hiscoreBox.innerHTML = "HiScore: " + Math.max(hiscoreVal, score);
     }
 
     // Moving the snake
@@ -109,6 +111,16 @@ function gameEngine() {
 
 
 // main workflow starts here
+// musicSound.play();
+let hiscore = localStorage.getItem("hiscore");
+if(hiscore === null){
+    localStorage.setItem("hiscore", '0')
+}
+else{
+    hiscoreval = JSON.parse(hiscore);
+    hiscoreBox.innerHTML = "HiScore: " + hiscore;
+}
+
 window.requestAnimationFrame(main);
 
 window.addEventListener('keydown', e => {
