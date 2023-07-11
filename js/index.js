@@ -5,9 +5,9 @@ const gameOverSound = new Audio('../music/gameover.mp3')
 const moveSound = new Audio('../music/move.mp3')
 const musicSound = new Audio('../music/music.mp3')
 
-let speed = 5
+let speed = 8
 let lastPaintTime = 0
-let score = 0, hiscoreVal = 0
+let score = 0
 
 let snakeArr = [
     {x: 13, y: 15}
@@ -18,13 +18,11 @@ food = {x: 10, y: 2};
 // Game Functions
 function main(ctime) {
     window.requestAnimationFrame(main)
-    // console.log(ctime);
     if ((ctime - lastPaintTime)/1000 < 1/speed) {
         return ;
     }
 
     lastPaintTime = ctime
-    // console.log(lastPaintTime);
     gameEngine();
 }
 
@@ -58,8 +56,9 @@ function gameEngine() {
         alert('Game Over. Please press any key to start again!');
 
         snakeArr = [{x:13, y:15}];
-        // musicSound.play();
+        musicSound.play();
         score = 0;
+        scoreBox.innerHTML = "Score: " + score;
     }
 
     // if the food is eaten, increment the score and regenerate the food
@@ -73,7 +72,12 @@ function gameEngine() {
 
         score += 1;
         scoreBox.innerHTML = "Score: " + score;
-        hiscoreBox.innerHTML = "HiScore: " + Math.max(hiscoreVal, score);
+
+        if(score > hiscoreVal){
+            hiscoreVal = score;
+            localStorage.setItem("hiscore", JSON.stringify(hiscoreVal));
+            hiscoreBox.innerHTML = "HiScore: " + hiscoreVal;
+        }
     }
 
     // Moving the snake
@@ -111,14 +115,15 @@ function gameEngine() {
 
 
 // main workflow starts here
-// musicSound.play();
+musicSound.play();
 let hiscore = localStorage.getItem("hiscore");
 if(hiscore === null){
-    localStorage.setItem("hiscore", '0')
+    hiscoreVal = 0
+    hiscoreBox.innerHTML = "HiScore: " + JSON.stringify(hiscoreVal);
 }
 else{
-    hiscoreval = JSON.parse(hiscore);
-    hiscoreBox.innerHTML = "HiScore: " + hiscore;
+    hiscoreVal = JSON.parse(hiscore);
+    hiscoreBox.innerHTML = "HiScore: " + hiscoreVal;
 }
 
 window.requestAnimationFrame(main);

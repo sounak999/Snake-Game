@@ -15,13 +15,18 @@
     justify-content: center;
 }
 
-#scoreBox {
+#scoreBox, #hiscoreBox {
     position: absolute;
     top: 9px;
-    right: 200px;
+    right: 183px;
     font-size: 39px;
     font-weight: bold;
     font-family: 'New Tegomin', serif;
+}
+
+#hiscoreBox {
+    top: 60px;
+    right: 140px;
 }
 
 #board {
